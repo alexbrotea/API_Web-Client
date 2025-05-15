@@ -26,6 +26,7 @@ EXPECT_TIMEOUT = 0.5  # this will get multiplied by EXPECT_WAIT_TRIES
 EXPECT_WAIT_TRIES = 10  # retries while waiting for a response from the program
 EXPECT_SEP = "="  # field separator for input
 TEXT_INDENT = "    "
+ENABLE_COLORS = True
 
 # penalization in case of checker runtime errors
 RUNTIME_PENALIZATION = -10
@@ -54,6 +55,11 @@ def wrap_test_output(text, indent=TEXT_INDENT):
 def color_print(text, fg="white", bg=None, style="normal", stderr=False, newline=True):
     """ Colored ANSI terminal printing
         (forgive this mess... but it's better than extra dependencies ;) """
+    if not ENABLE_COLORS:
+        (sys.stderr if stderr else sys.stdout).write(
+            text + ("\n" if newline else ""))
+        return
+        
     COLORS = ["black", "red", "green", "yellow", "blue", "purple", "cyan", "white"]
     STYLES = ["normal", "bold", "light", "italic", "underline", "blink"]
     fg = str(30 + COLORS.index(fg.lower()))
@@ -571,12 +577,15 @@ if __name__ == "__main__":
         "(separated by colon, e.g. `-u normal_username:password`; default: random)")
     parser.add_argument('-d', '--debug', help="Enable debug output", action="store_true")
     parser.add_argument('-i', '--ignore', help="Ignore errors (do not exit test early)", action="store_true")
+    parser.add_argument('-n', '--no-color', help="Disable output coloring", action="store_true")
 
     args = parser.parse_args()
     p = pexpect.spawn(shlex.quote(args.program), encoding='utf-8', echo=False, timeout=EXPECT_TIMEOUT)
     if args.debug:
         p.logfile_send = ExpectInputWrapper(direction=True)
         p.logfile_read = ExpectInputWrapper(direction=False)
+    if args.no_color:
+        ENABLE_COLORS = False
 
     total_score = 0
     try:
