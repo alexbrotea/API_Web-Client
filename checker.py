@@ -88,19 +88,21 @@ def normalize_user(user_type, user_data, randomize=False):
 
 def expect_send_params(p, xvars):
     keys = list(xvars.keys())
-    xpatterns = [RE_ERROR] + [(r"(?i)\b(" + kw + r")\s*" + EXPECT_SEP + r"\s*") for kw in keys]
+    xpatterns = [RE_ERROR, pexpect.TIMEOUT] + [(r"(?i)\b(" + kw + r")\s*" + EXPECT_SEP + r"\s*") for kw in keys]
     xseen = set()
+    tries = 0
     while xseen != set(keys):
-        try:
-            idx = p.expect(xpatterns)
-            if idx == 0:
-                raise CheckerException(f"Program returned error: {p.after.strip()}")
-            else:
-                p.sendline(str(xvars.get(keys[idx - 1])))
-                xseen.add(keys[idx - 1])
-        except pexpect.exceptions.TIMEOUT:
-            raise CheckerException("Client did not ask the following fields: " + 
-                                   ", ".join(set(keys) - xseen))
+        idx = p.expect(xpatterns)
+        if idx == 0:
+            raise CheckerException(f"Program returned error: {p.after.strip()}")
+        elif idx == 1:
+            tries += 1
+            if tries >= EXPECT_WAIT_TRIES:
+                raise CheckerException("Client did not ask the following fields: " + 
+                    ", ".join(set(keys) - xseen))
+        else:
+            p.sendline(str(xvars.get(keys[idx - 2])))
+            xseen.add(keys[idx - 2])
 
 def expect_flush_output(p, xargs=None, should_print=False):
     buf = ""
