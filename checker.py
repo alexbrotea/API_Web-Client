@@ -607,7 +607,7 @@ if __name__ == "__main__":
             color_print(traceback.format_exc(), fg="red", stderr=True)
 
         if isinstance(ex, CheckerException):
-            total_score = ex.partial_score
+            total_score = round(ex.partial_score)
 
-    color_print(f"\nChecker Finished!\nTotal: {total_score}",
+    color_print(f"\nChecker Finished!\nTotal: {total_score}/100",
                 fg="green", style="bold")
