@@ -72,18 +72,18 @@ A JSON object is built with only the filled-in fields and sent as a PUT request 
     A movie ID is entered, and a DELETE request is sent to the corresponding endpoint. The validity of the
 token and the existence of the movie are checked, and the response message reflects the operation's outcome.
 
-get_collections
-A GET request is sent to /api/v1/tema/library/collections. If the JWT token is valid, a list of all collections is returned.
-Each collection is displayed with its ID and title.
+    get_collections
+    A GET request is sent to /api/v1/tema/library/collections. If the JWT token is valid, a list of all
+collections is returned. Each collection is displayed with its ID and title.
 
-get_collection
-An ID is entered and a GET request is made for its details.
-The response includes the collection's title, owner, and list of included movies.
+    get_collection
+    An ID is entered and a GET request is made for its details. The response includes the collection's title,
+owner, and list of included movies.
 
-add_collection
-The collection title and number of movies are entered.
-Multiple POST requests are sent: one for creating the collection and one for each movie added.
-The movies are added sequentially, and potential errors are handled.
+    add_collection
+    The collection title and number of movies are entered. Multiple POST requests are sent: one for creating
+the collection and one for each movie added. The movies are added sequentially, and potential errors are
+handled.
 
 delete_collection
 The collection ID is entered, and a DELETE request is sent to the corresponding endpoint.
