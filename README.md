@@ -85,15 +85,15 @@ owner, and list of included movies.
 the collection and one for each movie added. The movies are added sequentially, and potential errors are
 handled.
 
-delete_collection
-The collection ID is entered, and a DELETE request is sent to the corresponding endpoint.
+    delete_collection
+    The collection ID is entered, and a DELETE request is sent to the corresponding endpoint.
 All possible server responses are handled: success, nonexistent collection, or lack of permissions.
 
-add_movie_to_collection
-This function receives the collection ID and the movie ID, builds a JSON object with the movie ID, and sends a POST request to /collections/<col_id>/movies.
-If the JWT token is valid, the movie is added to the collection.
+    add_movie_to_collection
+    This function receives the collection ID and the movie ID, builds a JSON object with the movie ID, and
+sends a POST request to /collections/<col_id>/movies. If the JWT token is valid, the movie is added to the
+collection.
 
-delete_movie_from_collection
-The collection_id and movie_id are entered, and a DELETE request is sent to the appropriate endpoint.
+    delete_movie_from_collection
+    The collection_id and movie_id are entered, and a DELETE request is sent to the appropriate endpoint.
 The server's response confirms whether the operation was successful or not.
-    
