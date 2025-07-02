@@ -44,31 +44,33 @@ required for future library-related actions.
 cookie is cleared, and the session ends.
 
     get_access
-This function uses the user’s cookie to send a GET request to /api/v1/tema/library/access.
-The server responds with a token that is extracted from the JSON body and stored. This token is required for all movie and collection-related actions.
+    This function uses the user’s cookie to send a GET request to /api/v1/tema/library/access.
+The server responds with a token that is extracted from the JSON body and stored. This token is required
+for all movie and collection-related actions.
 
-get_movies
-Using the JWT token, the client sends a GET request to /api/v1/tema/library/movies.
+    get_movies
+    Using the JWT token, the client sends a GET request to /api/v1/tema/library/movies.
 The response contains a list of movies, either as a JSON array or an object with the movies field.
 Each movie is displayed with its ID and title.
 
-get_movie
-After entering an ID, a GET request is sent to /api/v1/tema/library/movies/<id>.
+    get_movie
+    After entering an ID, a GET request is sent to /api/v1/tema/library/movies/<id>.
 If the movie exists, its title, release year, description, and rating are displayed.
 Special cases like rating expressed as a string are handled.
 
-add_movie
-All movie details are entered: title, year, description, and rating. These are packed into a JSON object and sent via a POST request to /api/v1/tema/library/movies.
-If the response indicates success, the movie is considered added.
+    add_movie
+    All movie details are entered: title, year, description, and rating. These are packed into a JSON
+object and sent via a POST request to /api/v1/tema/library/movies. If the response indicates success,
+the movie is considered added.
 
-update_movie
-The function receives an ID and allows updating one or more fields: title, description, year, and rating.
-A JSON object is built with only the filled-in fields and sent as a PUT request to /api/v1/tema/library/movies/<id>.
-The case where no fields are provided is also handled.
+    update_movie
+    The function receives an ID and allows updating one or more fields: title, description, year, and rating.
+A JSON object is built with only the filled-in fields and sent as a PUT request to
+/api/v1/tema/library/movies/<id>. The case where no fields are provided is also handled.
 
-delete_movie
-A movie ID is entered, and a DELETE request is sent to the corresponding endpoint.
-The validity of the token and the existence of the movie are checked, and the response message reflects the operation's outcome.
+    delete_movie
+    A movie ID is entered, and a DELETE request is sent to the corresponding endpoint. The validity of the
+token and the existence of the movie are checked, and the response message reflects the operation's outcome.
 
 get_collections
 A GET request is sent to /api/v1/tema/library/collections. If the JWT token is valid, a list of all collections is returned.
