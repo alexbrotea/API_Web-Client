@@ -8,37 +8,42 @@ skeleton. I reused the code from requests anhelpers and adapted them to the need
 I significantly developed the client, which, in the lab, only handled a simple GET or POST request.
 I extended its logic to also handle cookies and JWTs.
 
-login_admin
-This function prompts for the administrator’s username and password from the keyboard.
-These credentials are packed into a JSON object and sent to the server via an HTTP POST request to /api/v1/tema/admin/login.
-If authentication is successful, the response contains a session cookie, which is extracted from the Set-Cookie header and saved for later use.
-This cookie essentially confirms the admin login.
+    login_admin
+    This function prompts for the administrator’s username and password from the keyboard.
+These credentials are packed into a JSON object and sent to the server via an HTTP POST request to
+/api/v1/tema/admin/login. If authentication is successful, the response contains a session cookie,
+which is extracted from the Set-Cookie header and saved for later use. This cookie essentially confirms
+the admin login.
 
-logout_admin
-This function checks whether an admin cookie is active. If so, it sends a GET request to /api/v1/tema/admin/logout to end the session.
-If the logout is accepted by the server, the cookie is cleared from memory, signaling the end of the session.
+    logout_admin
+    This function checks whether an admin cookie is active. If so, it sends a GET request to
+/api/v1/tema/admin/logout to end the session. If the logout is accepted by the server, the cookie is
+cleared from memory, signaling the end of the session.
 
-add_user
-The admin can create a new user. The new user’s username and password are read and sent as JSON in a POST request to /api/v1/tema/admin/users.
-The request also includes the admin cookie for authorization. If the response is successful, a confirmation message is displayed.
+    add_user
+    The admin can create a new user. The new user’s username and password are read and sent as JSON in
+a POST request to /api/v1/tema/admin/users. The request also includes the admin cookie for authorization.
+If the response is successful, a confirmation message is displayed.
 
-get_users
-This function sends a GET request to /api/v1/tema/admin/users to retrieve the list of all existing users.
-The response is a JSON object containing an array of users. Each user is displayed with their ID, username, and password.
+    get_users
+    This function sends a GET request to /api/v1/tema/admin/users to retrieve the list of all existing users.
+The response is a JSON object containing an array of users. Each user is displayed with their ID, username,
+and password.
 
-delete_user
-The function receives a username from the keyboard, constructs the URL /api/v1/tema/admin/users/<username>, and sends a DELETE request.
-Depending on the server's response, a confirmation or error message is shown.
+    delete_user
+    The function receives a username from the keyboard, constructs the URL /api/v1/tema/admin/users/<username>,
+and sends a DELETE request. Depending on the server's response, a confirmation or error message is shown.
 
-login
-The user enters admin_username, username, and password, which are sent in a JSON object to the endpoint /api/v1/tema/user/login.
-If login is successful, the session cookie is extracted and saved, as it will be required for future library-related actions.
+    login
+    The user enters admin_username, username, and password, which are sent in a JSON object to the endpoint
+/api/v1/tema/user/login. If login is successful, the session cookie is extracted and saved, as it will be
+required for future library-related actions.
 
-logout
-If the user is logged in, a GET request is sent to /api/v1/tema/user/logout.
-If successful, the cookie is cleared, and the session ends.
+    logout
+    If the user is logged in, a GET request is sent to /api/v1/tema/user/logout. If it's successful, the
+cookie is cleared, and the session ends.
 
-get_access
+    get_access
 This function uses the user’s cookie to send a GET request to /api/v1/tema/library/access.
 The server responds with a token that is extracted from the JSON body and stored. This token is required for all movie and collection-related actions.
 
