@@ -1,21 +1,18 @@
-# Python + Flask makefile
+CC := gcc
+CFLAGS := -Wall -Wextra -g
+SRCS := client.c helper.c requests.c parson.c
+OBJS := $(SRCS:.c=.o)
+BIN := client
 
-VENV = .venv
-VENV_PYTHON3 = $(VENV)/bin/python3
+.PHONY: all clean
 
-ADMIN ?= test:testpass
-PROGRAM ?= ../client
+all: $(BIN)
 
-all: venv deps
+$(BIN): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
 
-venv: $(VENV_PYTHON3)
-$(VENV_PYTHON3):
-	python3 -m venv "$(VENV)"
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-deps: venv
-	$(VENV_PYTHON3) -m pip install -r requirements.txt
-
-A ?= --debug --admin "$(ADMIN)"
-run:
-	$(VENV_PYTHON3) checker.py $(PROGRAM) $(A)
-
+clean:
+	rm -f $(OBJS) $(BIN)
